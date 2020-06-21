@@ -13,7 +13,7 @@
   - name: Installing DockerMsftProvider Module from PSGallery
     win_shell: Install-Module -Name DockerMsftProvider -Repository PSGallery -Force
     ignore_errors: yes
-    register: module_dockermsfprovider_installation   
+  
 
   - name: "Installing Docker version {{ docker_version }}"
     win_shell: Install-Package -Name docker -ProviderName DockerMsftProvider -Force -RequiredVersion "{{ docker_version }}"
