@@ -1,0 +1,9 @@
+galaxy_info:
+  author: Muhammed Iqbal
+  description: Setup Docker on Windows
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+   - name: Windows
+     versions:
+     - 2019

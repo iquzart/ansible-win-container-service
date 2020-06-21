@@ -1,0 +1,33 @@
+---
+# tasks file for win-container-service
+
+  - name: Enable WindowsOptionalFeature Containers
+    win_feature:
+      name: Containers
+      state: present
+    register: enable_feature_containers
+
+  - name: Install Nuget Package Provider
+    win_shell: Install-PackageProvider -Name NuGet -MinimumVersion "2.8.5.201" -Force
+  
+  - name: Installing DockerMsftProvider Module from PSGallery
+    win_shell: Install-Module -Name DockerMsftProvider -Repository PSGallery -Force
+    ignore_errors: yes
+    register: module_dockermsfprovider_installation   
+
+  - name: "Installing Docker version {{ docker_version }}"
+    win_shell: Install-Package -Name docker -ProviderName DockerMsftProvider -Force -RequiredVersion "{{ docker_version }}"
+    register: install_docker
+
+  - name: Start and enable docker service   
+    win_service:
+      name: docker
+      state: stopped
+      start_mode: auto
+
+  - name: Rebooting the node
+    win_reboot:
+      reboot_timeout_sec: 120
+      connect_timeout: 120
+    when: enable_feature_containers.changed or install_docker.changed
+    ignore_errors: yes

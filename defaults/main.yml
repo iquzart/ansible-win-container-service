@@ -1,0 +1,4 @@
+---
+# tasks file for win-container-service
+
+docker_version: 19.03.5
